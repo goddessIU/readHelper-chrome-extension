@@ -1,12 +1,15 @@
 <template>
-    <div class="panel " ref="panel"
-        :class="{ 'panel--initial': isInitial, 'panel--absolute': isAbsolute, 'panel--fixed': (!isInitial && isFixed) }"
-        @dragstart="() => false">
+    <div id="app" class="panel " ref="panel"
+        :class="{ 'panel--initial': isInitial, 'panel--absolute': isAbsolute, 'panel--fixed': (!isInitial && isFixed), 'panel--resize': isResize }"
+        @dragstart="() => false" @mousemove="resizeMethod">
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
+        <main class="panel__body">
+            <Note class="body__note" />
+        </main>
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .panel {
     height: 20vw;
     width: 20vw;
@@ -14,6 +17,27 @@
     background-color: #fff;
 
     z-index: 9999;
+
+
+
+    .panel__head {
+        width: 100%;
+        height: 2vw;
+
+        cursor: move;
+        background-color: #8aefb0;
+    }
+
+    .panel__body {
+        width: 20vw;
+        height: 18vw;
+        overflow: hidden;
+
+        .body__note {
+            width: 100%;
+            height: 18vw;
+        }
+    }
 }
 
 .panel--initial {
@@ -30,19 +54,15 @@
     position: absolute;
 }
 
-
-.panel__head {
-    width: 100%;
-    height: 2vw;
-
-    cursor: move;
-    background-color: #8aefb0;
+.panel--resize {
+    cursor: nwse-resize!important;
 }
 </style>
 
 <script setup>
 import { ref } from 'vue';
 import { MouseMoveHandleClass } from '../../utils/MouseMoveHandleClass';
+import Note from './Note/Note.vue'
 
 const panel = ref(null)
 const panelHeader = ref(null)
@@ -101,4 +121,11 @@ const {
     dragMethod
 } = useDrag()
 
+const isResize = ref(false)
+const resizeMethod = (e) => {
+    const rect = panel.value.getBoundingClientRect()
+    if (Math.abs(rect.right - e.clientX) <= 30 && Math.abs(rect.bottom - e.clientY) <= 30) {
+        isResize.value = true
+    }
+}
 </script>
