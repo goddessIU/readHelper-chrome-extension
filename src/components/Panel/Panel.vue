@@ -3,47 +3,58 @@
         :class="{ 'panel--initial': isInitial, 'panel--absolute': isAbsolute, 'panel--fixed': (!isInitial && isFixed), 'panel--resize': canResize }"
         @dragstart="() => false" @mousemove="changeCursorMethod" @mousedown="resizeMethod">
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
-        <!-- <main class="panel__body">
+        <main class="panel__body">
             <Note class="body__note" />
-        </main> -->
+            
+        </main>
     </div>
 </template>
 
 <style scoped lang="scss">
 .panel {
-    height: 22vw;
+    height: 20vw;
     width: 20vw;
     border: 2px solid black;
     background-color: #fff;
     resize: both;
-    z-index: 9999;
-    overflow: auto;
+    z-index: 9999 !important;
+    box-sizing: border-box;
 
 
 
     .panel__head {
         width: 100%;
-        height: 2vw;
+        height: 20%;
+        // position: relative;
+        // top: 0;
 
         cursor: move;
         background-color: #8aefb0;
     }
 
     .panel__body {
-        width: 20vw;
-        height: 18vw;
+        width: 100%;
+        // height: calc(100% - 2vw);
+        height: 80%;
+        box-sizing: border-box;
         overflow: hidden;
 
         .body__note {
             width: 100%;
-            height: 18vw;
+            height: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            .body__note :deep(textarea) {
+                height: 100%;
+            }
         }
+
     }
 }
 
 .panel--initial {
     position: fixed;
-    right: 10vw;
+    left: 10vw;
     top: 3vh;
 }
 
@@ -80,8 +91,8 @@ const useDrag = () => {
      * @param {Event} e 
      */
     const dragMethod = (e) => {
-        const headerLeft = panelHeader.value.getBoundingClientRect().left
-        const headerTop = panelHeader.value.getBoundingClientRect().top
+        const headerLeft = panel.value.getBoundingClientRect().left
+        const headerTop = panel.value.getBoundingClientRect().top
 
         if (isInitial.value) {
             isInitial.value = false
@@ -92,8 +103,8 @@ const useDrag = () => {
 
 
         //计算后面absolute需要的距离
-        const mouseHeaderLeft = e.clientX - panelHeader.value.getBoundingClientRect().left
-        const mouseHeaderTop = e.clientY - panelHeader.value.getBoundingClientRect().top
+        const mouseHeaderLeft = e.clientX - headerLeft
+        const mouseHeaderTop = e.clientY - headerTop
 
         //事件处理对象
         const mouseMoveObj = new MouseMoveHandleClass(panelHeader.value, panel.value, mouseHeaderLeft, mouseHeaderTop)
@@ -101,7 +112,8 @@ const useDrag = () => {
         //添加mousemove和mouseup事件
         document.addEventListener('mousemove', mouseMoveObj)
 
-        document.addEventListener('mouseup', () => {
+        document.addEventListener('mouseup', (e) => {
+            e.preventDefault()
             isAbsolute.value = false
             isFixed.value = true
             document.removeEventListener('mousemove', mouseMoveObj)
@@ -122,6 +134,7 @@ const {
     dragMethod
 } = useDrag()
 
+// https://medium.com/the-z/making-a-resizable-div-in-js-is-not-easy-as-you-think-bda19a1bc53d
 // const isResize = ref(false)
 // const canResize = ref(false)
 // const changeCursorMethod = (e) => {

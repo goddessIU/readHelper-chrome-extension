@@ -13,7 +13,7 @@ export class MouseMoveHandleClass {
      * 
      * @return void
      */
-    constructor(header, block, mouseHeaderLeft, mouseHeaderTop, time = 100) {
+    constructor(header, block, mouseHeaderLeft, mouseHeaderTop, time = 10) {
         this.header = header
         this.block = block
         this.mouseHeaderLeft = mouseHeaderLeft
@@ -26,6 +26,7 @@ export class MouseMoveHandleClass {
      * @param {Event} event 
      */
     handleEvent(event) {
+        event.preventDefault()
         this.callBack(event, this.header, this.block, this.mouseHeaderLeft, this.mouseHeaderTop)
     }
 
