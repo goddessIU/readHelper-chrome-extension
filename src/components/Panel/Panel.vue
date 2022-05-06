@@ -108,6 +108,7 @@ const useDrag = () => {
             panelHeader.value.onmouseup = null
         }
 
+        //用来处理如果操作界面到达上下左右最极端，需要取消掉移动事件，模拟mouseup
         const unwatch = watch(emitMouseup, (newValue) => {
             if (newValue === true) {
                 document.removeEventListener('mousemove', mouseMoveObj)
@@ -115,20 +116,6 @@ const useDrag = () => {
                 unwatch()
             }
         })
-
-        // document.onmouseup = function (event) {
-        //     event.preventDefault()
-        //     event.stopImmediatePropagation()
-
-        //     const clientX = event.clientX
-        //     const clientY = event.clientY
-
-        //     if (clientX <= 0 || clientY <= 0 || clientX >= document.documentElement.clientWidth || clientY >= document.documentElement.clientHeight) {
-        //         document.removeEventListener('mousemove', mouseMoveObj)
-        //         panelHeader.value.onmouseup = null
-        //         document.onmouseup = null
-        //     }
-        // }
     }
 
     return {
