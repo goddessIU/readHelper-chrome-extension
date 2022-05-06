@@ -9,3 +9,5 @@
 2. content scripts处理
 开始用的是那种executeScripting的方式，发现不适合对于vue这些框架。
 于是改用在manifest中配置main文件。main中创建vue实例，从而导入vue文件
+
+3. 使用iframe避免css被影响，以及跨域处理

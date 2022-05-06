@@ -4,19 +4,18 @@
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
         <main class="panel__body">
             <Note class="body__note" />
-
         </main>
     </div>
 </template>
 
 <style scoped lang="scss">
-.panel {
+#readerHelper .panel {
     height: 20vw;
     width: 20vw;
     border: 2px solid black;
     background-color: #fff;
     resize: both;
-    z-index: 9999 !important;
+    z-index: 9999 ;
     box-sizing: border-box;
     position: fixed;
     left: 10vw;
@@ -27,16 +26,13 @@
     .panel__head {
         width: 100%;
         height: 20%;
-        // position: relative;
-        // top: 0;
 
         cursor: move;
-        background-color: #8aefb0;
+        background: #8aefb0;
     }
 
     .panel__body {
         width: 100%;
-        // height: calc(100% - 2vw);
         height: 80%;
         box-sizing: border-box;
         overflow: hidden;
@@ -55,7 +51,7 @@
     }
 }
 
-.panel--resize {
+#readerHelper .panel--resize {
     cursor: nwse-resize !important;
 }
 </style>
