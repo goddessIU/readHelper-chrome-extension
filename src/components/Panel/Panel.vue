@@ -1,11 +1,10 @@
 <template>
-    <div id="app" class="panel " ref="panel"
-        :class="{ 'panel--initial': isInitial, 'panel--absolute': isAbsolute, 'panel--fixed': (!isInitial && isFixed), 'panel--resize': canResize }"
-        @dragstart="() => false" @mousemove="changeCursorMethod" @mousedown="resizeMethod">
+    <div id="app" class="panel " ref="panel" :class="{ 'panel--resize': canResize }" @dragstart="() => false"
+        @mousemove="changeCursorMethod" @mousedown="resizeMethod">
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
         <main class="panel__body">
             <Note class="body__note" />
-            
+
         </main>
     </div>
 </template>
@@ -19,6 +18,9 @@
     resize: both;
     z-index: 9999 !important;
     box-sizing: border-box;
+    position: fixed;
+    left: 10vw;
+    top: 3vh;
 
 
 
@@ -44,6 +46,7 @@
             height: 100%;
             box-sizing: border-box;
             overflow: hidden;
+
             .body__note :deep(textarea) {
                 height: 100%;
             }
@@ -52,27 +55,13 @@
     }
 }
 
-.panel--initial {
-    position: fixed;
-    left: 10vw;
-    top: 3vh;
-}
-
-.panel--fixed {
-    position: fixed;
-}
-
-.panel--absolute {
-    position: absolute;
-}
-
 .panel--resize {
     cursor: nwse-resize !important;
 }
 </style>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { MouseMoveHandleClass } from '../../utils/MouseMoveHandleClass';
 import Note from './Note/Note.vue'
 
@@ -83,21 +72,19 @@ const panelHeader = ref(null)
  * 得到用于移动面板的相关方法和控制变量
  */
 const useDrag = () => {
-    const isInitial = ref(true)
-    const isFixed = ref(true)
-    const isAbsolute = ref(false)
+    const emitMouseup = ref(false)
+
     /**
      * 拖拽方法实现
      * @param {Event} e 
      */
     const dragMethod = (e) => {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+
         const headerLeft = panel.value.getBoundingClientRect().left
         const headerTop = panel.value.getBoundingClientRect().top
 
-        if (isInitial.value) {
-            isInitial.value = false
-        }
-        isAbsolute.value = true
         panel.value.style.left = headerLeft + 'px'
         panel.value.style.top = headerTop + 'px'
 
@@ -107,30 +94,48 @@ const useDrag = () => {
         const mouseHeaderTop = e.clientY - headerTop
 
         //事件处理对象
-        const mouseMoveObj = new MouseMoveHandleClass(panelHeader.value, panel.value, mouseHeaderLeft, mouseHeaderTop)
+        const mouseMoveObj = new MouseMoveHandleClass(panelHeader.value, panel.value, mouseHeaderLeft, mouseHeaderTop, emitMouseup)
 
-        //添加mousemove和mouseup事件
+        emitMouseup.value = false
+
         document.addEventListener('mousemove', mouseMoveObj)
 
-        document.addEventListener('mouseup', (e) => {
+        panelHeader.value.onmouseup = function (e) {
             e.preventDefault()
-            isAbsolute.value = false
-            isFixed.value = true
+            e.stopImmediatePropagation()
+
             document.removeEventListener('mousemove', mouseMoveObj)
+            panelHeader.value.onmouseup = null
+        }
+
+        const unwatch = watch(emitMouseup, (newValue) => {
+            if (newValue === true) {
+                document.removeEventListener('mousemove', mouseMoveObj)
+                panelHeader.value.onmouseup = null
+                unwatch()
+            }
         })
+
+        // document.onmouseup = function (event) {
+        //     event.preventDefault()
+        //     event.stopImmediatePropagation()
+
+        //     const clientX = event.clientX
+        //     const clientY = event.clientY
+
+        //     if (clientX <= 0 || clientY <= 0 || clientX >= document.documentElement.clientWidth || clientY >= document.documentElement.clientHeight) {
+        //         document.removeEventListener('mousemove', mouseMoveObj)
+        //         panelHeader.value.onmouseup = null
+        //         document.onmouseup = null
+        //     }
+        // }
     }
 
     return {
-        isInitial,
-        isFixed,
-        isAbsolute,
         dragMethod
     }
 }
 const {
-    isInitial,
-    isFixed,
-    isAbsolute,
     dragMethod
 } = useDrag()
 
