@@ -3,4 +3,4 @@
 
 这个插件目的是方便学习，譬如，将代码或文章粘贴或标记，避免文章上下来回滚动；搜索单词
 
-技术栈： JavaScript + HTML + CSS (如果后面不断扩充，考虑用Vue.js 重构)
+技术栈： JavaScript + HTML + CSS + Vue.js
