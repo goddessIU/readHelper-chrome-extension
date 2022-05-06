@@ -1,0 +1,17 @@
+{
+    "name": "learn-helper",
+    "version": "1.0",
+    "manifest_version": 3,
+
+    "permissions": ["activeTab", "scripting"],
+    "action": {
+        "default_title": "learn-helper",
+        "default_popup": "./index.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["components/Panel/main.js"]
+        }
+    ]
+}
