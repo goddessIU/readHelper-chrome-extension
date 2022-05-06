@@ -1,22 +1,23 @@
 <template>
     <div id="app" class="panel " ref="panel"
-        :class="{ 'panel--initial': isInitial, 'panel--absolute': isAbsolute, 'panel--fixed': (!isInitial && isFixed), 'panel--resize': isResize }"
-        @dragstart="() => false" @mousemove="resizeMethod">
+        :class="{ 'panel--initial': isInitial, 'panel--absolute': isAbsolute, 'panel--fixed': (!isInitial && isFixed), 'panel--resize': canResize }"
+        @dragstart="() => false" @mousemove="changeCursorMethod" @mousedown="resizeMethod">
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
-        <main class="panel__body">
+        <!-- <main class="panel__body">
             <Note class="body__note" />
-        </main>
+        </main> -->
     </div>
 </template>
 
 <style scoped lang="scss">
 .panel {
-    height: 20vw;
+    height: 22vw;
     width: 20vw;
     border: 2px solid black;
     background-color: #fff;
-
+    resize: both;
     z-index: 9999;
+    overflow: auto;
 
 
 
@@ -55,7 +56,7 @@
 }
 
 .panel--resize {
-    cursor: nwse-resize!important;
+    cursor: nwse-resize !important;
 }
 </style>
 
@@ -121,11 +122,36 @@ const {
     dragMethod
 } = useDrag()
 
-const isResize = ref(false)
-const resizeMethod = (e) => {
-    const rect = panel.value.getBoundingClientRect()
-    if (Math.abs(rect.right - e.clientX) <= 30 && Math.abs(rect.bottom - e.clientY) <= 30) {
-        isResize.value = true
-    }
-}
+// const isResize = ref(false)
+// const canResize = ref(false)
+// const changeCursorMethod = (e) => {
+//     const rect = panel.value.getBoundingClientRect()
+//     if (Math.abs(rect.right - e.clientX) <= 30 && Math.abs(rect.bottom - e.clientY) <= 30) {
+//         canResize.value = true
+//     } else {
+//         canResize.value = false
+//     }
+// }
+
+// const resizeMethod = (e) => {
+//     if (!canResize.value) {
+//         return
+//     }
+//     const startX = e.clientX
+//     const startY = e.clientY
+//     function resizeMove(event) {
+//         let a = event.clientX - startX
+//         let b = event.clientY - startY
+//         const v = Math.min(a / panel.value.getBoundingClientRect().width,  b / panel.value.getBoundingClientRect().height)
+//         panel.value.style.width *= v
+//         panel.value.style.height *= v
+//     }
+//     document.addEventListener('mousemove', resizeMove)
+//     document.addEventListener('mouseup', (event) => {
+//         document.removeEventListener('mousemove', resizeMove)
+//     })
+// }
+
+
+
 </script>
