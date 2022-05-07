@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="panel " ref="panel" @dragstart="() => false" @mousemove="changeCursorMethod"
-        @mousedown="resizeMethod" v-show="showPanel">
+        @mousedown="resizeMethod" v-if="showPanel">
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader">
             <div class="head__options">
                 <span class="options__option" :class="{ 'options__option--choosed': index === curOption }"
@@ -97,12 +97,48 @@
 </style>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { MouseMoveHandleClass } from '../../utils/MouseMoveHandleClass';
 import Note from './Note/Note.vue'
 
 const panel = ref(null)
 const panelHeader = ref(null)
+
+/**
+ * 展示面板相关逻辑
+ */
+const useShowPanel = () => {
+    const showPanel = ref(false)
+
+    //接受popup发来的信息
+    onMounted(() => {
+        chrome.runtime.onMessage.addListener(
+            function (message) {
+                if (message.open === true) {
+                    showPanel.value = true
+                }
+            }
+        )
+    })
+
+    const closePanel = () => {
+        if (showPanel.value) {
+            showPanel.value = false
+        }
+    }
+
+    return {
+        showPanel,
+        closePanel
+    }
+}
+const {
+    showPanel,
+    closePanel
+} = useShowPanel()
+
+
+
 
 //关于选择面板功能的函数
 const useOptions = () => {
@@ -123,7 +159,7 @@ const {
     chooseOption
 } = useOptions()
 
-const showPanel = ref(true)
+
 
 /**
  * 得到用于移动面板的相关方法和控制变量
@@ -182,11 +218,4 @@ const useDrag = () => {
 const {
     dragMethod
 } = useDrag()
-
-
-const closePanel = () => {
-    if (showPanel.value) {
-        showPanel.value = false
-    }
-}
 </script>

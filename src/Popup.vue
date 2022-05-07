@@ -1,6 +1,37 @@
 <template>
-    <button id="openInterFace">打开面板</button>
+    <button 
+        id="openInterFace"
+        @click="sendOpenToPanel"
+    >
+        打开面板
+    </button>
 </template>
+
+<script setup>
+/**
+ * 发送消息
+ */
+const useSendMessage = () => {
+    /**
+     * 利用chrome api发送打开面板信息给content script
+     */
+    const sendOpenToPanel = () => {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            const tab = tabs[0]
+            chrome.tabs.sendMessage(tab.id, {
+                open: true
+            })
+            window.close()
+        })
+    }
+    return {
+        sendOpenToPanel
+    }
+}
+const {
+    sendOpenToPanel
+} = useSendMessage()
+</script>
 
 <style scoped>
 #openInterFace {
