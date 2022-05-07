@@ -8,10 +8,10 @@
     </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 #readerHelper .panel {
-    height: 20vw;
-    width: 20vw;
+    height: 200px;
+    width: 200px;
     border: 2px solid black;
     background-color: #fff;
     resize: both;
@@ -25,7 +25,7 @@
 
     .panel__head {
         width: 100%;
-        height: 20%;
+        height: 10%;
 
         cursor: move;
         background: #8aefb0;
@@ -33,7 +33,7 @@
 
     .panel__body {
         width: 100%;
-        height: 80%;
+        height: 90%;
         box-sizing: border-box;
         overflow: hidden;
 
@@ -43,9 +43,6 @@
             box-sizing: border-box;
             overflow: hidden;
 
-            .body__note :deep(textarea) {
-                height: 100%;
-            }
         }
 
     }
