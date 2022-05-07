@@ -1,10 +1,10 @@
 <template>
-    <div id="app" class="panel " ref="panel" :class="{ 'panel--resize': canResize }" @dragstart="() => false"
+    <div id="app" class="panel " ref="panel" @dragstart="() => false"
         @mousemove="changeCursorMethod" @mousedown="resizeMethod">
         <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
-        <main class="panel__body">
+        <div class="panel__body">
             <Note class="body__note" />
-        </main>
+        </div>
     </div>
 </template>
 
@@ -14,43 +14,36 @@
     width: 200px;
     border: 2px solid black;
     background-color: #fff;
-    resize: both;
-    z-index: 9999 ;
+    z-index: 9999;
     box-sizing: border-box;
     position: fixed;
     left: 10vw;
     top: 3vh;
 
-
-
     .panel__head {
         width: 100%;
         height: 10%;
+        box-sizing: border-box;
 
         cursor: move;
         background: #8aefb0;
     }
 
     .panel__body {
+        box-sizing: border-box;
         width: 100%;
         height: 90%;
-        box-sizing: border-box;
-        overflow: hidden;
 
         .body__note {
-            width: 100%;
             height: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
-
+            width: 100%;
         }
-
     }
 }
 
-#readerHelper .panel--resize {
-    cursor: nwse-resize !important;
-}
+// #readerHelper .panel--resize {
+//     cursor: nwse-resize !important;
+// }
 </style>
 
 <script setup>

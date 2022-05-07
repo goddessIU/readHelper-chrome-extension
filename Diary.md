@@ -10,4 +10,11 @@
 开始用的是那种executeScripting的方式，发现不适合对于vue这些框架。
 于是改用在manifest中配置main文件。main中创建vue实例，从而导入vue文件
 
-3. 使用iframe避免css被影响，以及跨域处理
+3. 针对css污染
+iframe
+加id
+shadow
+的选型
+
+4. html语义化
+https://www.semrush.com/blog/semantic-html5-guide/
