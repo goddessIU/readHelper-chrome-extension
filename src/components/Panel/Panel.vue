@@ -10,19 +10,24 @@
 
 <style lang="scss" scoped>
 #readerHelper .panel {
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
     border: 2px solid black;
+
+    box-sizing: border-box;
+
     background-color: #fff;
     z-index: 9999;
-    box-sizing: border-box;
+    
     position: fixed;
     left: 10vw;
     top: 3vh;
 
+    color: black!important;
+
     .panel__head {
-        width: 100%;
-        height: 10%;
+        width: 296px;
+        height: 26px;
         box-sizing: border-box;
 
         cursor: move;
@@ -31,19 +36,13 @@
 
     .panel__body {
         box-sizing: border-box;
-        width: 100%;
-        height: 90%;
+        width: 296px;
+        height: 270px;
 
-        .body__note {
-            height: 100%;
-            width: 100%;
-        }
+        color: black!important;
     }
 }
 
-// #readerHelper .panel--resize {
-//     cursor: nwse-resize !important;
-// }
 </style>
 
 <script setup>
@@ -111,38 +110,4 @@ const useDrag = () => {
 const {
     dragMethod
 } = useDrag()
-
-// https://medium.com/the-z/making-a-resizable-div-in-js-is-not-easy-as-you-think-bda19a1bc53d
-// const isResize = ref(false)
-// const canResize = ref(false)
-// const changeCursorMethod = (e) => {
-//     const rect = panel.value.getBoundingClientRect()
-//     if (Math.abs(rect.right - e.clientX) <= 30 && Math.abs(rect.bottom - e.clientY) <= 30) {
-//         canResize.value = true
-//     } else {
-//         canResize.value = false
-//     }
-// }
-
-// const resizeMethod = (e) => {
-//     if (!canResize.value) {
-//         return
-//     }
-//     const startX = e.clientX
-//     const startY = e.clientY
-//     function resizeMove(event) {
-//         let a = event.clientX - startX
-//         let b = event.clientY - startY
-//         const v = Math.min(a / panel.value.getBoundingClientRect().width,  b / panel.value.getBoundingClientRect().height)
-//         panel.value.style.width *= v
-//         panel.value.style.height *= v
-//     }
-//     document.addEventListener('mousemove', resizeMove)
-//     document.addEventListener('mouseup', (event) => {
-//         document.removeEventListener('mousemove', resizeMove)
-//     })
-// }
-
-
-
 </script>
