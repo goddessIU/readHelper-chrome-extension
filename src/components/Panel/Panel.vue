@@ -1,7 +1,15 @@
 <template>
-    <div id="app" class="panel " ref="panel" @dragstart="() => false"
-        @mousemove="changeCursorMethod" @mousedown="resizeMethod">
-        <header class="panel__head" @mousedown="dragMethod" ref="panelHeader"></header>
+    <div id="app" class="panel " ref="panel" @dragstart="() => false" @mousemove="changeCursorMethod"
+        @mousedown="resizeMethod" v-show="showPanel">
+        <header class="panel__head" @mousedown="dragMethod" ref="panelHeader">
+            <div class="head__options">
+                <span class="options__option" :class="{ 'options__option--choosed': index === curOption }"
+                    v-for="(option, index) in options" @click.stop="chooseOption(index)">
+                    {{ option }}
+                </span>
+            </div>
+            <div class="head__close" @click.stop="closePanel">x</div>
+        </header>
         <div class="panel__body">
             <Note class="body__note" />
         </div>
@@ -18,20 +26,64 @@
 
     background-color: #fff;
     z-index: 9999;
-    
+
     position: fixed;
     left: 10vw;
     top: 3vh;
 
-    color: black!important;
+    color: black !important;
 
     .panel__head {
         width: 296px;
         height: 26px;
+
         box-sizing: border-box;
 
         cursor: move;
         background: #8aefb0;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .head__options {
+            flex-grow: 1;
+
+            justify-content: flex-start;
+            align-items: flex-end;
+
+            .options__option {
+                background-color: rgb(255, 250, 205);
+                height: 20px;
+
+                display: inline-block;
+
+                margin-right: 3px;
+
+                flex-grow: 0;
+
+                font: 12px cursive;
+                color: black !important;
+
+                cursor: pointer;
+            }
+
+            .options__option--choosed {
+                background-color: rgb(151, 255, 255);
+            }
+        }
+
+        .head__close {
+            flex-basis: 20px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            font-weight: bold;
+            color: #fff !important;
+
+            cursor: pointer;
+        }
     }
 
     .panel__body {
@@ -39,10 +91,9 @@
         width: 296px;
         height: 270px;
 
-        color: black!important;
+        color: black !important;
     }
 }
-
 </style>
 
 <script setup>
@@ -52,6 +103,27 @@ import Note from './Note/Note.vue'
 
 const panel = ref(null)
 const panelHeader = ref(null)
+
+//关于选择面板功能的函数
+const useOptions = () => {
+    const options = ref(['页面标签', '词典'])
+    const curOption = ref(0)
+    const chooseOption = (index) => {
+        curOption.value = index
+    }
+    return {
+        options,
+        curOption,
+        chooseOption
+    }
+}
+const {
+    options,
+    curOption,
+    chooseOption
+} = useOptions()
+
+const showPanel = ref(true)
 
 /**
  * 得到用于移动面板的相关方法和控制变量
@@ -110,4 +182,11 @@ const useDrag = () => {
 const {
     dragMethod
 } = useDrag()
+
+
+const closePanel = () => {
+    if (showPanel.value) {
+        showPanel.value = false
+    }
+}
 </script>

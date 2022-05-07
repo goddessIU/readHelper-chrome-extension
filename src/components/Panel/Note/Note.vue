@@ -210,6 +210,8 @@ const deleteMark = (e, index) => {
 
             transition: font-weight 0.3s linear;
 
+            cursor: pointer;
+
             &:hover {
                 font-weight: bold;
             }
