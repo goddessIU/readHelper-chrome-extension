@@ -10,14 +10,13 @@
                     删
                 </span>
             </li>
-
         </ul>
         <aside class="noteControl">
             <button class="noteControl__markButton" @click="addMark">
                 打下标记
             </button>
             <textarea cols="10" rows="10" class="noteControl__text" placeholder="标记内容" v-model="markText"
-                @keyup.shift.enter="addMark"></textarea>
+                @keyup.shift.enter.prevent="addMark"></textarea>
         </aside>
     </article>
 </template>
@@ -25,7 +24,9 @@
 <script setup>
 import { ref } from 'vue';
 
-
+/**
+ * 添加mark标签的函数
+ */
 const useAddMark = () => {
     //记录mark详情
     const markText = ref('')
@@ -69,6 +70,9 @@ const {
     markPos
 } = useAddMark()
 
+/**
+ * 使用mark标签滚动
+ */
 const useMarkToScroll = () => {
     const clickMark = (index) => {
         const { x, y } = markPos.value[index]
@@ -83,6 +87,11 @@ const {
     clickMark
 } = useMarkToScroll()
 
+/**
+ * 删除mark标签
+ * @param {Event} e 
+ * @param {number} index 
+ */
 const deleteMark = (e, index) => {
     e.stopPropagation()
     e.stopImmediatePropagation()
