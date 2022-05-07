@@ -18,3 +18,7 @@ shadow
 
 4. html语义化
 https://www.semrush.com/blog/semantic-html5-guide/
+使用了语义化，应用article aside之类
+
+5. 通信功能
+实现了popup向panel发送信息的功能
