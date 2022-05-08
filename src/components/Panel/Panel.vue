@@ -142,7 +142,7 @@ const {
 
 //关于选择面板功能的函数
 const useOptions = () => {
-    const options = ref(['页面标签', '词典'])
+    const options = ref(['页面标签', '词典', '其他功能'])
     const curOption = ref(0)
     const chooseOption = (index) => {
         curOption.value = index
