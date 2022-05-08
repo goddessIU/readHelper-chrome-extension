@@ -74,9 +74,7 @@
         }
     }
 
-    .translation__output {
-
-    }
+    
 }
 </style>
 
