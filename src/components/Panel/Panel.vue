@@ -11,8 +11,9 @@
             <div class="head__close" @click.stop="closePanel">x</div>
         </header>
         <div class="panel__body">
-            <!-- <Note class="body__note" /> -->
-            <SearchEngine />
+            <keep-alive>
+                <component :is="tabs[currentTab]"></component>
+            </keep-alive>
         </div>
     </div>
 </template>
@@ -110,8 +111,6 @@ const panelHeader = ref(null)
  * 展示面板相关逻辑
  */
 const useShowPanel = () => {
-    const showPanel = ref(false)
-
     //接受popup发来的信息
     onMounted(() => {
         chrome.runtime.onMessage.addListener(
@@ -130,12 +129,10 @@ const useShowPanel = () => {
     }
 
     return {
-        showPanel,
         closePanel
     }
 }
 const {
-    showPanel,
     closePanel
 } = useShowPanel()
 
@@ -144,21 +141,39 @@ const {
 
 //关于选择面板功能的函数
 const useOptions = () => {
-    const options = ref(['页面标签', '其他功能'])
+    //动态组件相关
+    const currentTab = ref('Note')
+    const tabs = {
+        Note,
+        SearchEngine
+    }
+    const tabName = ['Note', 'SearchEngine']
+
+    const showPanel = ref(false)
+    const options = ref(['页面标签', '搜索功能'])
     const curOption = ref(0)
     const chooseOption = (index) => {
         curOption.value = index
+        currentTab.value = tabName[index]
     }
     return {
         options,
         curOption,
-        chooseOption
+        chooseOption,
+        currentTab,
+        tabName,
+        tabs,
+        showPanel
     }
 }
 const {
     options,
     curOption,
-    chooseOption
+    chooseOption,
+    currentTab,
+    tabName,
+    tabs,
+    showPanel
 } = useOptions()
 
 
