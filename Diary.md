@@ -26,11 +26,11 @@ https://www.semrush.com/blog/semantic-html5-guide/
 
 
 6. 未来计划
-提供翻译
-提供搜索引擎连接，以及简易搜索
-css污染
+提供翻译x
+提供搜索引擎连接-
+css污染x
 文档发布
-国际化
+国际化x
 ts重构
 
 7. 搜索

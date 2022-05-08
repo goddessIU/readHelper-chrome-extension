@@ -11,7 +11,8 @@
             <div class="head__close" @click.stop="closePanel">x</div>
         </header>
         <div class="panel__body">
-            <Note class="body__note" />
+            <!-- <Note class="body__note" /> -->
+            <SearchEngine />
         </div>
     </div>
 </template>
@@ -100,6 +101,7 @@
 import { nextTick, onMounted, ref, watch } from 'vue';
 import { MouseMoveHandleClass } from '../../utils/MouseMoveHandleClass';
 import Note from './Note/Note.vue'
+import SearchEngine from './SearchEngine/SearchEngine.vue'
 
 const panel = ref(null)
 const panelHeader = ref(null)
@@ -142,7 +144,7 @@ const {
 
 //关于选择面板功能的函数
 const useOptions = () => {
-    const options = ref(['页面标签', '词典', '其他功能'])
+    const options = ref(['页面标签', '其他功能'])
     const curOption = ref(0)
     const chooseOption = (index) => {
         curOption.value = index
