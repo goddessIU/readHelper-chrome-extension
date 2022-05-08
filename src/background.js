@@ -1,3 +1,4 @@
+//监听事件
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         const { engine, purpose, query } = request
