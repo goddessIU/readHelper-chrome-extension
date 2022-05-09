@@ -1,4 +1,4 @@
-# readHelper-chrome-extension
+# learn-Helper
 一个打算用来方便人们学习的chrome插件
 
 这个插件目的是方便学习与阅读。
